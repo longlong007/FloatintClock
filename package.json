@@ -1,0 +1,39 @@
+{
+  "name": "easy-clock",
+  "version": "1.0.0",
+  "description": "A simple desktop floating clock",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "build": "electron-builder",
+    "dist": "electron-builder --win",
+    "package": "node package-app.js"
+  },
+  "keywords": [
+    "clock",
+    "floating",
+    "desktop",
+    "electron"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^22.0.0",
+    "electron-builder": "^22.14.13"
+  },
+  "build": {
+    "appId": "com.example.easyclock",
+    "productName": "Easy Clock",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

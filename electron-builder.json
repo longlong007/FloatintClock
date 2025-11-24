@@ -1,0 +1,24 @@
+{
+  "appId": "com.example.easyclock",
+  "productName": "Easy Clock",
+  "directories": {
+    "output": "dist"
+  },
+  "files": [
+    "main.js",
+    "renderer.js",
+    "index.html",
+    "style.css",
+    "config.js",
+    "package.json"
+  ],
+  "win": {
+    "target": "nsis"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true
+  }
+}

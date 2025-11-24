@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Floating Clock</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="clock-container">
+        <!-- 圆形时钟 -->
+        <div class="analog-clock">
+            <div class="clock-face">
+                <!-- 时钟刻度 -->
+                <div class="marks"></div>
+                <div class="hand hour-hand"></div>
+                <div class="hand minute-hand"></div>
+                <div class="hand second-hand"></div>
+                <div class="center-circle"></div>
+            </div>
+        </div>
+        <div id="digital-time"></div>
+        <div id="date"></div>
+        <div id="controls">
+            <button id="close-btn">×</button>
+        </div>
+    </div>
+    <script src="renderer.js"></script>
+    <script>
+        // 启用右键菜单
+        window.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            // 发送右键菜单事件到主进程
+            require('electron').ipcRenderer.send('context-menu');
+        });
+    </script>
+</body>
+</html>
