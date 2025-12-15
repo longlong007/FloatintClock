@@ -2,8 +2,8 @@
 module.exports = {
   // 窗口设置
   window: {
-    width: 200,
-    height: 250,
+    width: 320,
+    height: 480,
     transparent: true,
     frame: false,
     alwaysOnTop: true,

@@ -9,29 +9,23 @@ const marksContainer = document.querySelector('.marks');
 
 // 生成时钟刻度
 function createClockMarks() {
-    const numbers = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-    const radius = 65; // 数字距离中心的距离
-    const centerX = 80; // 时钟中心X坐标
-    const centerY = 80; // 时钟中心Y坐标
-    
-    for (let i = 0; i < 12; i++) {
-        // 计算角度（12点方向为0度）
-        const angle = (i * 30) * (Math.PI / 180); // 转换为弧度
+    // 生成60个刻度（12个小时刻度 + 48个分钟刻度）
+    for (let i = 0; i < 60; i++) {
+        const mark = document.createElement('div');
+        mark.className = 'mark';
         
-        // 计算数字的位置
-        const x = centerX + radius * Math.sin(angle);
-        const y = centerY - radius * Math.cos(angle);
+        // 每5个刻度为一个小时刻度
+        if (i % 5 === 0) {
+            mark.classList.add('hour-mark');
+        } else {
+            mark.classList.add('minute-mark');
+        }
         
-        // 创建数字元素
-        const numberElement = document.createElement('div');
-        numberElement.className = 'mark-text';
-        numberElement.textContent = numbers[i];
-        numberElement.style.position = 'absolute';
-        numberElement.style.left = `${x}px`;
-        numberElement.style.top = `${y}px`;
-        numberElement.style.transform = 'translate(-50%, -50%)';
+        // 旋转刻度
+        const angle = i * 6; // 每个刻度6度
+        mark.style.transform = `translateX(-50%) rotate(${angle}deg)`;
         
-        marksContainer.appendChild(numberElement);
+        marksContainer.appendChild(mark);
     }
 }
 
@@ -51,19 +45,22 @@ function updateDigitalTime() {
     const secondsStr = String(seconds).padStart(2, '0');
     const timeString = `${hoursStr}:${minutesStr}:${secondsStr}`;
     
-    // 格式化日期
+    // 格式化日期（中文格式）
     const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
+    const month = now.getMonth() + 1;
+    const day = now.getDate();
+    const monthNames = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'];
     const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
     const weekday = weekdays[now.getDay()];
-    const dateString = `${year}-${month}-${day} 星期${weekday}`;
+    const dateString = `${year}年 ${monthNames[month - 1]}月 ${day}日`;
+    const weekdayString = `星期${weekday}`;
     
     // 更新数字时间显示
     digitalTime.textContent = timeString;
     
     // 更新日期显示
     document.getElementById('date').textContent = dateString;
+    document.getElementById('weekday').textContent = weekdayString;
 }
 
 // 初始更新
@@ -113,6 +110,10 @@ clockContainer.addEventListener('mousedown', (e) => {
     // 忽略关闭按钮的点击
     if (e.target.id === 'close-btn') return;
     
+    // 阻止默认行为
+    e.preventDefault();
+    e.stopPropagation();
+    
     isDragging = true;
     
     // 计算鼠标相对于窗口左上角的偏移量
@@ -128,6 +129,10 @@ clockContainer.addEventListener('mousedown', (e) => {
 document.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
     
+    // 阻止默认行为
+    e.preventDefault();
+    e.stopPropagation();
+    
     // 计算新的窗口位置
     const x = e.screenX - offsetX;
     const y = e.screenY - offsetY;
@@ -137,7 +142,11 @@ document.addEventListener('mousemove', (e) => {
 });
 
 // 鼠标释放事件
-document.addEventListener('mouseup', () => {
+document.addEventListener('mouseup', (e) => {
+    if (isDragging) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
     isDragging = false;
     clockContainer.style.cursor = 'default';
 });

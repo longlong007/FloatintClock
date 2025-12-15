@@ -13,21 +13,32 @@ function createClockWindow() {
   clockWindow = new BrowserWindow({
     width: config.window.width,
     height: config.window.height,
+    minWidth: config.window.width,
+    minHeight: config.window.height,
+    maxWidth: config.window.width,
+    maxHeight: config.window.height,
     x: width - config.window.width - 20, // 右下角位置
     y: height - config.window.height - 20,
     transparent: config.window.transparent, // 透明背景
     frame: config.window.frame, // 无边框
     alwaysOnTop: config.window.alwaysOnTop, // 始终置顶
-    resizable: config.window.resizable, // 不可调整大小
+    resizable: false, // 不可调整大小
     movable: config.window.movable, // 可移动
+    skipTaskbar: true, // 不在任务栏显示
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: false,
+      enableRemoteModule: false,
+      zoomFactor: 1.0
     }
   });
 
   // 加载时钟页面
   clockWindow.loadFile('index.html');
+  
+  // 禁用窗口缩放
+  clockWindow.webContents.setZoomFactor(1.0);
+  clockWindow.webContents.setVisualZoomLevelLimits(1, 1);
 
   // 创建右键菜单
   const contextMenu = Menu.buildFromTemplate([
