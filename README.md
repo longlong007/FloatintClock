@@ -1,4 +1,4 @@
-# Easy Clock - 悬浮时钟
+# Floating Clock - 悬浮时钟
 
 一个简单的桌面悬浮时钟应用，基于 Electron 构建。
 
